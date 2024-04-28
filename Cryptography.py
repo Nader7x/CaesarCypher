@@ -24,9 +24,15 @@ def substitute(message, alphabet):
     message = message.rstrip()
     new_message = ""
     for letter in message:
-        index = alphabet.find(letter)
+        if letter == ' ':
+            new_message += letter
+            continue
+        index = alphabet.find(letter.lower())
         new_index = (index + 3) % 26
-        new_message += alphabet[new_index]
+        if letter.isupper():
+            new_message += alphabet[new_index].upper()
+        else:
+            new_message += alphabet[new_index]
     after_substitution.append(new_message)
 
 
@@ -48,9 +54,25 @@ for line in lines:
     substitute(line, alphabet_string)
 
 for line in after_substitution:
-    transpose(line)
+    transpose(line.replace(" ", ""))
+
+
 
 after_substitution.insert(0, "=========== Substitution =================")
 append_strings_to_file("files/output.txt", after_substitution)
 after_transposition.insert(0, "===============Transposition===================")
 append_strings_to_file("files/output.txt", after_transposition)
+
+
+# Taking the whole file as one word only =============================
+# with open("files/original.txt", "r") as file:
+#     message = file.read().replace('\n', '')
+#
+# with open('files/alphabet.txt', 'r') as file:
+#     alphabet_string = file.read()
+#
+# substitute(message, alphabet_string)
+# transpose(after_substitution[0].replace(" ", ""))
+#
+# append_strings_to_file("files/output.txt", after_substitution)
+# append_strings_to_file("files/output.txt", after_transposition)
